@@ -2,6 +2,7 @@ import Image from "next/image";
 import { Geist, Geist_Mono } from "next/font/google";
 import { useSocket } from "@/context/socket";
 import { useEffect } from "react";
+import  usePeer  from "@/Hooks/usePeer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -14,6 +15,8 @@ const geistMono = Geist_Mono({
 });
 
 export default function Home() {
+
+  usePeer();
 
   const socket = useSocket();
 
