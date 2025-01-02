@@ -1,8 +1,10 @@
 import Image from "next/image";
 import { Geist, Geist_Mono } from "next/font/google";
-import { useSocket } from "@/context/socket";
-import { useEffect } from "react";
-import  usePeer  from "@/Hooks/usePeer";
+import { v4  } from 'uuid';
+import { useRouter } from "next/router";
+import { useState } from "react";
+import styles from '@/styles/home.module.css'
+
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -16,17 +18,33 @@ const geistMono = Geist_Mono({
 
 export default function Home() {
 
-  usePeer();
+  const router = useRouter();
+  const [roomId,setRoomId] = useState('');
 
-  const socket = useSocket();
+  const handleClick = () => {
+    const roomId = v4();
+    router.push(`/${roomId}`);
+  }
 
-  useEffect(() => {
-    socket?.on('connect',() => {
-      console.log("Socket id ", socket.id)
-    })
-  },[socket]);
+  const joinRoom = () => {
+    if(roomId){
+      router.push(`/${roomId}`);
+    }
+    else {
+      alert('Provide a correct Room ID');
+    }
+  }
 
   return (
-    <div>Welcome</div>
+    <div className={styles.homeContainer}>
+      <h1>MeetSphere</h1>
+      <div className={styles.enterRoom}>
+        <input placeholder="Enter Room ID" value={roomId} onChange={(e) => {setRoomId(e?.target?.value)}}/>
+        <button onClick={joinRoom}>Join a Room</button>
+      </div>
+      <span className={styles.separatorText}>--------------- OR ---------------</span>
+      <button onClick={handleClick}>Create a new Room</button>
+    </div>
+
   );
 }
