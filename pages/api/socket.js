@@ -15,6 +15,13 @@ const SocketHandler = (req,res) => {
 
             console.log('New client connected',socket.id)
 
+
+            socket.on('join-room',(roomId,userId) => {
+                console.log(`a new user with userId ${userId} join the roomId ${roomId}`);
+                socket.join(roomId);
+                socket.broadcast.to(roomId).emit('user-connected',userId);
+            })
+
             socket.on('disconnect',() => {
                 console.log('Client disconnected',socket.id)
             })
