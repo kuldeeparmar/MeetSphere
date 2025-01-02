@@ -38,7 +38,7 @@ const usePeer = () => {
 
 
 
-    },[])
+    },[roomId, socket])
 
     return {peer,myId}
 
